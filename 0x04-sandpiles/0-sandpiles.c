@@ -22,7 +22,7 @@ return (0);
 return (1);
 }
 /**
- * grid_addition - add two grids
+ * addition_in_grid - add two grids
  * @grid1: 1st matrix
  * @grid2: 2nd matrix
  */
@@ -30,7 +30,7 @@ return (1);
 void addition_in_grid(int grid1[3][3], int grid2[3][3])
 {
 int i, j;
-                                                                                                        for (i = 0; i < 3; i++)
+for (i = 0; i < 3; i++)
 {
 for (j = 0; j < 3; j++)
 {
@@ -62,7 +62,7 @@ printf("\n");
 }
 
 /**
- * grid_change - modify grid value
+ * change_grid - modify grid value
  * @grid1: sandpile
  */
 
