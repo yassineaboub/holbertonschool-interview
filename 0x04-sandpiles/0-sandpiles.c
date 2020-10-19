@@ -83,4 +83,3 @@ grid_print(grid1);
 toppling(grid1, topl);
 }
 }
-
