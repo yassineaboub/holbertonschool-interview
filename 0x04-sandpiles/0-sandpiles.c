@@ -1,85 +1,114 @@
-#include "sandpiles.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
- * grid_print - func that prints the grid
- * @grid: print the grid
- */
-void grid_print(int grid[3][3])
-{
-int x = 0, i = 0;
-printf("=\n");
-for (x = 0; x < 3; x++)
-{
-for (x = 0; x < 3; x++)
-{
-printf("%d", grid[x][i]);
-if (x < 2)
-putchar(' ');
-}
-putchar('\n');
-}
-}
-/**
- * toppling - sandpile thar turn around topple
+ * grid_is_perfect - check if a grid is perfect
  * @grid: sandpile
- * @topl: another grid
- * return: void
+ * Return: 1 if grid is perfect, otherwise 0
  */
-void toppling(int grid[3][3], int topl[3][3])
+
+int grid_is_perfect(int grid[3][3])
 {
-int x = 0, i = 0;
-for (x = 0; x < 3; x++)
-{
+int i = 0;
+int j = 0;
 for (i = 0; i < 3; i++)
 {
-if (topl[x][i] == 1)
+for (j = 0; j < 3; j++)
 {
-grid[x][i] = grid[x][i] - 4;
-if (x > 0)
-grid[x - 1][i] = grid[x - 1][i] + 1;
-if (x < 2)
-grid[x + 1][i] = grid[x + 1][i] + 1;
-if (i > 0)
-grid[x][i - 1] = grid[x][i - 1] + 1;
-if (i < 2)
-grid[x][i + 1] = grid[x][i + 1] + 1;
+if (grid[i][j] > 3)
+return (0);
 }
 }
-}
+return (1);
 }
 /**
- * sandpiles_sum -  function that computes sum of two sandpiles
+ * grid_addition - add two grids
  * @grid1: 1st matrix
  * @grid2: 2nd matrix
  */
+
+void addition_in_grid(int grid1[3][3], int grid2[3][3])
+{
+int i, j;
+                                                                                                        for (i = 0; i < 3; i++)
+{
+for (j = 0; j < 3; j++)
+{
+grid1[i][j] = grid1[i][j] + grid2[i][j];
+}
+}
+}
+
+/**
+ * grid_print - print grid
+ * @grid: sandpile
+ */
+
+void grid_print(int grid[3][3])
+{
+int i = 0;
+int j = 0;
+printf("=\n");
+for (i = 0; i < 3; i++)
+{
+for (j = 0; j < 3; j++)
+{
+if (j)
+printf(" ");
+printf("%d", grid[i][j]);
+}
+printf("\n");
+}
+}
+
+/**
+ * grid_change - modify grid value
+ * @grid1: sandpile
+ */
+
+void change_grid(int grid1[3][3])
+{
+int i = 0;
+int j = 0;
+int gridx[3][3];
+for (i = 0; i < 3; i++)
+{
+for (j = 0; j < 3; j++)
+gridx[i][j] = 0;
+}
+for (i = 0; i < 3; i++)
+{
+for (j = 0; j < 3; j++)
+{
+if (grid1[i][j] > 3)
+{
+grid1[i][j] = grid1[i][j] - 4;
+if ((i - 1) >= 0 && (i - 1) < 3)
+gridx[i - 1][j] += 1;
+if ((j - 1) >= 0 && (j - 1) < 3)
+gridx[i][j - 1] += 1;
+if ((i + 1) >= 0 && (i + 1) < 3)
+gridx[i + 1][j] += 1;
+if ((j + 1) >= 0 && (j + 1) < 3)
+gridx[i][j + 1] += 1;
+}
+}
+}
+addition_in_grid(grid1, gridx);
+}
+
+/**
+ * sandpiles_sum - sum of two sandpiles
+ * @grid1: 1st matrix
+ * @grid2: 2nd matrix
+ */
+
 void sandpiles_sum(int grid1[3][3], int grid2[3][3])
 {
-int x = 0, i = 0, g = 0;
-int topl[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-for (x = 0; x < 3; x++)
-for (i = 0; i < 3; i++)
-grid1[x][i] = grid1[x][i] + grid2[x][i];
-while (1)
+addition_in_grid(grid1, grid2);
+while (!grid_is_perfect(grid1))
 {
-g = 0;
-for (x = 0; x < 3; x++)
-{
-for (i = 0; i < 3; i++)
-{
-if (grid1[x][i] > 3)
-{
-topl[x][i] = 1;
-g = 1;
-}
-else
-{
-topl[x][i] = 0;
-}
-}
-}
-if (g == 0)
-return;
 grid_print(grid1);
-toppling(grid1, topl);
+change_grid(grid1);
 }
 }
