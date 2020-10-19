@@ -19,7 +19,7 @@ return (s_bnt);
 }
 /**
  * bt_perfect - function that checks if fnc is perfect
- * @tree: ptr to node
+ * @r: ptr to node
  * Return:  1 if true otherwise 0
  */
 int bt_perfect(const binary_tree_t *r)
