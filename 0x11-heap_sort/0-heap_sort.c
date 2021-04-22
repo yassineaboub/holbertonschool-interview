@@ -3,41 +3,45 @@
 /**
  * swap - 2 element to swap
  * @array: array
- * @a: first element index
- * @b: econd element index
+ * @a: first element
+ * @b: second element
+ * @n: size of arr
  */
-void swap(int *array, int a, int b)
+void swap(int *a, int *b, int *array, size_t n)
 {
-	if (a == b)
-		return;
-	array[a] ^= array[b];
-	array[b] ^= array[a];
-	array[a] ^= array[b];
+
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+	print_array(array, n);
 }
 
 /**
  * heap - change array to heap maximum
- * @array: array
- * @heap_size: size of the array
- * @i: recursive element
+ * @arr: array
+ * @n: size of the array
+ * @i: position
  * @size: array's size
  */
-void heap(int *array, size_t heap_size, size_t i, size_t size)
+void heap(int *arr, int n, int i, size_t size)
 {
-	size_t largest = i;
-	size_t l = 2 * i + 1, r = 2 * i + 2;
 
-	if (l < heap_size && array[l] > array[largest])
-		largest = l;
-	if (r < heap_size && array[r] > array[largest])
-		largest = r;
+	int largest = i;
+	int left = 2 * i + 1;
+	int right = 2 * i + 2;
+
+	if (left < n && arr[left] > arr[largest])
+		largest = left;
+
+	if (right < n && arr[right] > arr[largest])
+		largest = right;
 
 	if (largest != i)
 	{
-		swap(array, i, largest);
-		print_array(array, size);
-		heap(array, heap_size, largest, size);
+		swap(&arr[i], &arr[largest], arr, size);
+		heap(arr, n, largest, size);
 	}
+
 }
 
 /**
@@ -47,15 +51,20 @@ void heap(int *array, size_t heap_size, size_t i, size_t size)
  */
 void heap_sort(int *array, size_t size)
 {
+
 	size_t i;
 
-	for (i = size / 2 - 1; i > 0; i--)
-		heap(array, size, i, size);
-	heap(array, size, 0, size);
+	if (array == NULL)
+		return;
+
+	for (i = size / 2 ; i > 0; i--)
+		heap(array, size, i - 1, size);
+
 	for (i = size - 1; i > 0; i--)
 	{
-		swap(array, 0, i);
-		print_array(array, size);
+		swap(&array[0], &array[i], array, size);
+
 		heap(array, i, 0, size);
 	}
 }
+
